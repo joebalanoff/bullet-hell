@@ -2,6 +2,7 @@ package game.entities;
 
 import engine.scenes.Entity;
 import engine.scenes.Scene;
+import engine.scenes.SceneArea;
 import engine.utils.Vector2;
 import engine.utils.listeners.Input;
 
@@ -15,8 +16,8 @@ public class Player extends Entity {
 
     public Player(Scene scene) {
         super(scene);
-        this.position.x = 400;
-        this.position.y = 250;
+        this.position.x = getWidth() / 2;
+        this.position.y = getHeight() / 2;
     }
 
     @Override
@@ -26,7 +27,13 @@ public class Player extends Entity {
         if(Input.isKeyDown(KeyEvent.VK_S)) input.y += 1;
         if(Input.isKeyDown(KeyEvent.VK_D)) input.x += 1;
         if(Input.isKeyDown(KeyEvent.VK_A)) input.x -= 1;
-        position.Add(input.normalized().multiply(delta * moveSpeed));
+        Vector2 nextPosition = position.add(input.normalized().multiply(delta * moveSpeed));
+
+        SceneArea activeArea = scene.getActiveArea();
+        if(activeArea != null) {
+            nextPosition.x + Math.max(activeArea.minPosition.x, Math.min(nextPosition.x, activeArea.maxPosition.x));
+            nextPosition.x + Math.max(activeArea.minPosition.y, Math.min(nextPosition.y, activeArea.maxPosition.y));
+        }
 
         if(input.x > 0) targetAngle = 20;
         else if(input.x < 0) targetAngle = -20;

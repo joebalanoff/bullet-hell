@@ -11,10 +11,12 @@ public class Camera {
 
     private Vector2 minPosition;
     private Vector2 maxPosition;
+    private Vector2 offset;
 
     public Camera(Window window) {
         this.window = window;
         this.position = new Vector2();
+        this.offset = new Vector2();
     }
 
     public void onUpdate(double delta) {
@@ -24,8 +26,11 @@ public class Camera {
                     follow.y - (double) getViewportHeight() / 2
             );
             if(minPosition != null && maxPosition != null) {
-                targetPosition.x = clamp(targetPosition.x, minPosition.x, maxPosition.x);
-                targetPosition.y = clamp(targetPosition.y, minPosition.y, maxPosition.y);
+                targetPosition.x = clamp(targetPosition.x, minPosition.x, maxPosition.x - getViewportWidth());
+                targetPosition.y = clamp(targetPosition.y, minPosition.y, maxPosition.y - getViewportHeight());
+
+                targetPosition.x -= getViewportWidth() / 2 - ((maxPosition.x - minPosition.x) / 2);
+                targetPosition.y -= getViewportHeight() / 2 - ((maxPosition.y - minPosition.y) / 2);
             }
 
             float lerpSpeed = 0.3f;
@@ -37,6 +42,8 @@ public class Camera {
     public void setFollow(Vector2 follow) {
         this.follow = follow;
     }
+
+    public void setOffset(Vector2 offset) { this.offset = offset; }
 
     public void setMinPosition(Vector2 minPosition) {
         this.minPosition = minPosition;

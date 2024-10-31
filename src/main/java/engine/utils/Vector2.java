@@ -33,9 +33,21 @@ public class Vector2 {
         return v;
     }
 
+    public Vector2 add(Vector2 v) {
+        Vector2 v2 = new Vector2(this.x, this.y);
+        v2.x += v.x;
+        v2.y += v.y;
+        return v2;
+    }
+
     public void Add(Vector2 v) {
         this.x += v.x;
         this.y += v.y;
+    }
+
+    public void Add(double x, double y) {
+        this.x += x;
+        this.y += y;
     }
 
     public Vector2 multiply(double s) {

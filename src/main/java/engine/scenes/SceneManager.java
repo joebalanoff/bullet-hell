@@ -46,7 +46,10 @@ public class SceneManager {
         Scene curScene = getCurrentScene();
         if(curScene != null) {
             curScene.onUpdate(delta);
+
+            curScene.updateAreas(delta);
             curScene.updateEntities(delta);
+
             curScene.camera.onUpdate(delta);
         }
     }

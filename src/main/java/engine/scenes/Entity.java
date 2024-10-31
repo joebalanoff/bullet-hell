@@ -18,4 +18,7 @@ public abstract class Entity {
 
    public double getX() { return position.x; }
    public double getY() { return position.y; }
+
+   protected int getWidth() { return scene.getWidth(); }
+   protected int getHeight() { return scene.getHeight(); }
 }
