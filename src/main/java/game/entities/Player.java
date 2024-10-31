@@ -31,9 +31,21 @@ public class Player extends Entity {
 
         SceneArea activeArea = scene.getActiveArea();
         if(activeArea != null) {
-            nextPosition.x + Math.max(activeArea.minPosition.x, Math.min(nextPosition.x, activeArea.maxPosition.x));
-            nextPosition.x + Math.max(activeArea.minPosition.y, Math.min(nextPosition.y, activeArea.maxPosition.y));
+            boolean canEnterConnectedArea = false;
+            for(SceneArea connectedArea : activeArea.connectedAreas) {
+                if(connectedArea.containsPlayer()) {
+                    canEnterConnectedArea = true;
+                    break;
+                }
+            }
+
+            if(!canEnterConnectedArea) {
+                nextPosition.x = Math.max(activeArea.minPosition.x, Math.min(nextPosition.x, activeArea.maxPosition.x));
+                nextPosition.y = Math.max(activeArea.minPosition.y, Math.min(nextPosition.y, activeArea.maxPosition.y));
+            }
         }
+
+        position.set(nextPosition);
 
         if(input.x > 0) targetAngle = 20;
         else if(input.x < 0) targetAngle = -20;

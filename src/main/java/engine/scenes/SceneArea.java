@@ -16,8 +16,7 @@ public class SceneArea {
     public Vector2 cameraOffset;
     private boolean active;
 
-    private final ArrayList<SceneArea> connectedAreas = new ArrayList<>();
-
+    public final ArrayList<SceneArea> connectedAreas = new ArrayList<>();
     public SceneArea(Scene scene) {
         this.scene = scene;
         this.active = false;
@@ -26,28 +25,31 @@ public class SceneArea {
     public void onUpdate(double delta) {
         if(!active && containsPlayer()) {
             activateArea();
-        } else if (!active && !containsPlayer() && !connectedToPlayerArea()) {
+        } else if (active && !containsPlayer()) {
             active = false;
         }
     }
 
     private void activateArea() {
-        active = true;
-        if(containCamera) {
-            scene.camera.setMinPosition(minPosition);
-            scene.camera.setMaxPosition(maxPosition);
-        }
-        if(cameraOffset != null) scene.camera.setOffset(cameraOffset);
-        if(followsPlayer) {
-            Player p = scene.getEntity(Player.class);
-            if(p != null) {
-                scene.camera.setFollow(p.position);
+        if(!active) {
+            active = true;
+            if (containCamera) {
+                scene.camera.setMinPosition(minPosition);
+                scene.camera.setMaxPosition(maxPosition);
+            }
+            if (cameraOffset != null) scene.camera.setOffset(cameraOffset);
+            if (followsPlayer) {
+                Player p = scene.getEntity(Player.class);
+                if (p != null) {
+                    scene.camera.setFollow(p.position);
+                }
             }
         }
     }
 
     public void onDebugDraw(Graphics2D g2d) {
-        g2d.setColor(Color.GREEN);
+        g2d.setColor(containsPlayer() ? Color.GREEN : Color.RED);
+        g2d.setStroke(new BasicStroke(5));
         g2d.drawRect((int) minPosition.x, (int) minPosition.y, (int) (maxPosition.x - minPosition.x), (int) (maxPosition.y - minPosition.y));
     }
 

@@ -79,6 +79,18 @@ public abstract class Scene {
     public abstract void onDraw(Graphics2D g2d);
     public abstract void onExit();
 
+    public SceneArea getActiveArea() {
+        for(SceneArea area : sceneAreas) {
+            if(area.containsPlayer()) {
+                for(SceneArea connectedArea : area.connectedAreas) {
+                    if(connectedArea.containsPlayer()) return connectedArea;
+                }
+                return area;
+            }
+        }
+        return null;
+    }
+
     public int getWidth() { return sceneManager.getWindow().getWidth(); }
     public int getHeight() { return sceneManager.getWindow().getHeight(); }
 }

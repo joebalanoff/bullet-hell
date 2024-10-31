@@ -24,6 +24,11 @@ public class Vector2 {
         this.y /= mag;
     }
 
+    public void set(Vector2 v) {
+        this.x = v.x;
+        this.y = v.y;
+    }
+
     public Vector2 normalized() {
         double mag = getMagnitude();
         if(mag == 0) return new Vector2();
