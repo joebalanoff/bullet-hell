@@ -62,6 +62,8 @@ public class SceneArea {
         g2d.setColor(containsPlayer() ? Color.GREEN : Color.RED);
         g2d.setStroke(new BasicStroke(5));
         g2d.drawRect((int) minPosition.x, (int) minPosition.y, (int) (maxPosition.x - minPosition.x), (int) (maxPosition.y - minPosition.y));
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect((int) minPosition.x, (int) minPosition.y, (int) (maxPosition.x - minPosition.x), (int) (maxPosition.y - minPosition.y));
     }
 
     public boolean containsPlayer() {

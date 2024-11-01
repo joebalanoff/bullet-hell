@@ -43,21 +43,24 @@ public abstract class Scene {
 
     public abstract void onEnter();
     public void preRender(Graphics2D g2d) {
+        g2d.setColor(new Color(221, 224, 236));
+        g2d.fillRect(0, 0, getWidth(), getHeight());
         if(camera != null) {
             g2d.scale(camera.getZoom(), camera.getZoom());
             g2d.translate(-camera.getX(), -camera.getY());
         }
+
     }
     public void postRender(Graphics2D g2d) {
-        for(Entity entity : entities) {
-            entity.onDraw(g2d);
+        int i = 0;
+        for(i = sceneAreas.size() - 1; i >= 0; i--) {
+            sceneAreas.get(i).onDebugDraw(g2d);
+        }
+        for(i = entities.size() - 1; i >= 0; i--) {
+            entities.get(i).onDraw(g2d);
         }
 
-        if(!sceneAreas.isEmpty()) {
-            for (SceneArea area : sceneAreas) {
-                area.onDebugDraw(g2d);
-            }
-        }
+
 
         if(camera != null) {
             g2d.translate(camera.getX(), camera.getY());
