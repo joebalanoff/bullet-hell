@@ -66,9 +66,14 @@ public abstract class Scene {
     }
     public void updateAreas(double delta) {
         if(sceneAreas.isEmpty()) return;
-        for(SceneArea area : sceneAreas) {
-            area.onUpdate(delta);
+        for(int i = sceneAreas.size() - 1; i >= 0; i--) {
+            sceneAreas.get(i).onUpdate(delta);
         }
+    }
+    public void bubbleArea(SceneArea area) {
+        if(!sceneAreas.contains(area)) return;
+        sceneAreas.remove(area);
+        sceneAreas.add(0, area);
     }
     public void updateEntities(double delta) {
         for(Entity entity : entities) {

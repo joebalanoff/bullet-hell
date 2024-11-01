@@ -41,7 +41,7 @@ public class Player extends Entity {
             boolean canEnterConnectedArea = false;
             for(SceneArea connectedArea : activeArea.connectedAreas) {
                 if(connectedArea.containsPlayer()) {
-                    canEnterConnectedArea = true;
+                    canEnterConnectedArea = !activeArea.locked && !connectedArea.locked;
                     break;
                 }
             }

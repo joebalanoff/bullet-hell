@@ -8,6 +8,7 @@ public class Camera {
     private Vector2 position;
     private Vector2 follow;
     private float zoom = 0.5f;
+    private float currentZoom = 1f;
 
     private Vector2 minPosition;
     private Vector2 maxPosition;
@@ -20,6 +21,9 @@ public class Camera {
     }
 
     public void onUpdate(double delta) {
+        float zoomSpeed = 0.1f;
+        currentZoom += (zoom - currentZoom) * zoomSpeed;
+
         if(follow != null) {
             Vector2 targetPosition = new Vector2(
                     follow.x - (double) getViewportWidth() / 2,
@@ -33,7 +37,7 @@ public class Camera {
                 targetPosition.y -= getViewportHeight() / 2 - ((maxPosition.y - minPosition.y) / 2);
             }
 
-            float lerpSpeed = 0.3f;
+            float lerpSpeed = 0.2f;
             position.x += (targetPosition.x - position.x) * lerpSpeed;
             position.y += (targetPosition.y - position.y) * lerpSpeed;
         }
@@ -42,6 +46,8 @@ public class Camera {
     public void setFollow(Vector2 follow) {
         this.follow = follow;
     }
+
+    public void setZoom(float zoom) { this.zoom = zoom; }
 
     public void setOffset(Vector2 offset) { this.offset = offset; }
 
@@ -62,11 +68,11 @@ public class Camera {
     }
 
     public int getViewportWidth() {
-        return (int) (window.getWidth() / zoom);
+        return (int) (window.getWidth() / currentZoom);
     }
 
     public int getViewportHeight() {
-        return (int) (window.getHeight() / zoom);
+        return (int) (window.getHeight() / currentZoom);
     }
 
     private double clamp(double value, double min, double max) {
@@ -74,6 +80,6 @@ public class Camera {
     }
 
     public float getZoom() {
-        return zoom;
+        return currentZoom;
     }
 }

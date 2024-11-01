@@ -14,12 +14,18 @@ public class SceneArea {
     public Vector2 minPosition;
     public Vector2 maxPosition;
     public Vector2 cameraOffset;
+    public float cameraZoom = 0.5f;
+    public Runnable onEnter;
+    public Runnable onClear;
+    public boolean locked = false;
     private boolean active;
 
     public final ArrayList<SceneArea> connectedAreas = new ArrayList<>();
     public SceneArea(Scene scene) {
         this.scene = scene;
         this.active = false;
+        this.onEnter = () -> {};
+        this.onClear = () -> {};
     }
 
     public void onUpdate(double delta) {
@@ -32,16 +38,21 @@ public class SceneArea {
 
     private void activateArea() {
         if(!active) {
+            scene.bubbleArea(this);
+            onEnter.run();
             active = true;
-            if (containCamera) {
-                scene.camera.setMinPosition(minPosition);
-                scene.camera.setMaxPosition(maxPosition);
-            }
-            if (cameraOffset != null) scene.camera.setOffset(cameraOffset);
-            if (followsPlayer) {
-                Player p = scene.getEntity(Player.class);
-                if (p != null) {
-                    scene.camera.setFollow(p.position);
+            if(!scene.getActiveArea().locked) {
+                scene.camera.setZoom(cameraZoom);
+                if (containCamera) {
+                    scene.camera.setMinPosition(minPosition);
+                    scene.camera.setMaxPosition(maxPosition);
+                }
+                if (cameraOffset != null) scene.camera.setOffset(cameraOffset);
+                if (followsPlayer) {
+                    Player p = scene.getEntity(Player.class);
+                    if (p != null) {
+                        scene.camera.setFollow(p.position);
+                    }
                 }
             }
         }
