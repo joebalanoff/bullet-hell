@@ -14,33 +14,32 @@ public class PeasantScene extends Scene {
     public void onEnter() {
         SceneArea entrance = addArea(new SceneArea(this));
         entrance.minPosition = new Vector2(0, 0);
-        entrance.maxPosition = new Vector2(600, 400);
+        entrance.maxPosition = new Vector2(700, 500);
 
-        SceneArea corridor1 = addArea(new SceneArea(this));
-        corridor1.minPosition = new Vector2(600, 0);
-        corridor1.maxPosition = new Vector2(1000, 400);
-        entrance.connectTo(corridor1);
+        SceneArea corridor1Horizontal = addArea(new SceneArea(this));
+        corridor1Horizontal.minPosition = new Vector2(700, 200);
+        corridor1Horizontal.maxPosition = new Vector2(1500, 700);
+        entrance.connectTo(corridor1Horizontal);
 
-        SceneArea downwardHallway = addArea(new SceneArea(this));
-        downwardHallway.minPosition = new Vector2(600, -400);
-        downwardHallway.maxPosition = new Vector2(1000, 0);
-        corridor1.connectTo(downwardHallway);
+        SceneArea corridor1Vertical = addArea(new SceneArea(this));
+        corridor1Vertical.minPosition = new Vector2(1200, -300);
+        corridor1Vertical.maxPosition = new Vector2(1500, 200);
+        corridor1Horizontal.connectTo(corridor1Vertical);
 
         SceneArea guardRoom = addArea(new SceneArea(this));
-        guardRoom.minPosition = new Vector2(400, -800);
-        guardRoom.maxPosition = new Vector2(1000, -400);
-        downwardHallway.connectTo(guardRoom);
+        guardRoom.minPosition = new Vector2(600, -700);
+        guardRoom.maxPosition = new Vector2(1500, -300);
+        corridor1Vertical.connectTo(guardRoom);
 
         SceneArea leftwardCorridor = addArea(new SceneArea(this));
-        leftwardCorridor.minPosition = new Vector2(0, -800);
-        leftwardCorridor.maxPosition = new Vector2(400, -400);
+        leftwardCorridor.minPosition = new Vector2(600, -1000);
+        leftwardCorridor.maxPosition = new Vector2(1000, -700);
         guardRoom.connectTo(leftwardCorridor);
 
         SceneArea bossArena = addArea(new SceneArea(this));
-        bossArena.minPosition = new Vector2(0, -1400);
-        bossArena.maxPosition = new Vector2(600, -800);
+        bossArena.minPosition = new Vector2(200, -1600);
+        bossArena.maxPosition = new Vector2(1000, -1000);
         leftwardCorridor.connectTo(bossArena);
-
 
         player = addEntity(new Player(this));
     }

@@ -11,6 +11,11 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Entity {
     private double moveSpeed = 5;
+    private double sprintSpeed = 8;
+    private double normalSize = 40;
+    private double sprintSize = 30;
+    private boolean sprinting = false;
+
     private double angle = 0;
     private double targetAngle = 0;
 
@@ -22,12 +27,14 @@ public class Player extends Entity {
 
     @Override
     public void onUpdate(double delta) {
+        sprinting = Input.isKeyDown(KeyEvent.VK_SHIFT);
+
         Vector2 input = new Vector2();
         if(Input.isKeyDown(KeyEvent.VK_W)) input.y -= 1;
         if(Input.isKeyDown(KeyEvent.VK_S)) input.y += 1;
         if(Input.isKeyDown(KeyEvent.VK_D)) input.x += 1;
         if(Input.isKeyDown(KeyEvent.VK_A)) input.x -= 1;
-        Vector2 nextPosition = position.add(input.normalized().multiply(delta * moveSpeed));
+        Vector2 nextPosition = position.add(input.normalized().multiply(delta * (sprinting ? sprintSpeed : moveSpeed)));
 
         SceneArea activeArea = scene.getActiveArea();
         if(activeArea != null) {
@@ -58,7 +65,8 @@ public class Player extends Entity {
     public void onDraw(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         g2d.rotate(Math.toRadians(angle), position.x, position.y);
-        g2d.fillRoundRect((int) (position.x - 15), (int) (position.y - 15), 30, 30, 10, 10);
+        double size = sprinting ? sprintSize : normalSize;
+        g2d.fillRoundRect((int) (position.x - size / 2), (int) (position.y - size / 2), (int) size, (int) size, 10, 10);
         g2d.rotate(-Math.toRadians(angle), position.x, position.y);
     }
 }

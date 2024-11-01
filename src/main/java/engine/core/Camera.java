@@ -7,7 +7,7 @@ public class Camera {
 
     private Vector2 position;
     private Vector2 follow;
-    private float zoom = 1.0f;
+    private float zoom = 0.5f;
 
     private Vector2 minPosition;
     private Vector2 maxPosition;
