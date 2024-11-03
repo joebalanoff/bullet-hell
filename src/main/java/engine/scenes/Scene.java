@@ -3,12 +3,14 @@ package engine.scenes;
 import engine.core.Camera;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class Scene {
     private SceneManager sceneManager;
     private int buildIndex = -1;
     protected Camera camera;
+    protected BufferedImage background;
 
     private ArrayList<SceneArea> sceneAreas;
     private ArrayList<Entity> entities;
@@ -43,13 +45,14 @@ public abstract class Scene {
 
     public abstract void onEnter();
     public void preRender(Graphics2D g2d) {
-        g2d.setColor(new Color(221, 224, 236));
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.setColor(new Color(33, 33, 44));
+        g2d.fillRect(0,0, getWidth(), getHeight());
         if(camera != null) {
             g2d.scale(camera.getZoom(), camera.getZoom());
             g2d.translate(-camera.getX(), -camera.getY());
         }
-
+        if(background != null)
+            g2d.drawImage(background, 0, 0, background.getWidth(), background.getHeight(), null);
     }
     public void postRender(Graphics2D g2d) {
         int i = 0;
@@ -101,4 +104,6 @@ public abstract class Scene {
 
     public int getWidth() { return sceneManager.getWindow().getWidth(); }
     public int getHeight() { return sceneManager.getWindow().getHeight(); }
+
+    public Camera getCamera() { return camera; }
 }

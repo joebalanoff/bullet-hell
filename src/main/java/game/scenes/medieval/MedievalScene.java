@@ -1,24 +1,24 @@
-package game.scenes.medieval.peasants;
+package game.scenes.medieval;
 
 import engine.scenes.Scene;
 import engine.scenes.SceneArea;
 import engine.utils.Vector2;
-import engine.utils.listeners.Input;
+import engine.listeners.Input;
 import game.entities.Player;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class PeasantScene extends Scene {
+public class MedievalScene extends Scene {
     public Player player;
     SceneArea corridor1Horizontal;
 
     @Override
     public void onEnter() {
         SceneArea entrance = addArea(new SceneArea(this));
-        entrance.minPosition = new Vector2(0, 0);
-        entrance.maxPosition = new Vector2(700, 500);
-        entrance.cameraZoom = 0.8f;
+        entrance.minPosition = new Vector2(0, 100);
+        entrance.maxPosition = new Vector2(700, 800);
+        entrance.cameraZoom = 0.6f;
 
         corridor1Horizontal = addArea(new SceneArea(this));
         corridor1Horizontal.minPosition = new Vector2(700, 200);

@@ -25,7 +25,7 @@ public class MainThread extends JPanel implements Runnable {
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
 
-            double delta = updateLength / ((double) OPTIMAL_TIME);
+            double delta = updateLength / 1_000_000_000.0;
 
             window.getSceneManager().updateScene(delta);
             if(window.getKeyboardListener() != null) window.getKeyboardListener().onUpdate();

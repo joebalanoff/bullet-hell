@@ -1,8 +1,9 @@
 package engine.core;
 
+import engine.listeners.MousepadListener;
 import engine.scenes.SceneManager;
-import engine.utils.listeners.Input;
-import engine.utils.listeners.KeyboardListener;
+import engine.listeners.Input;
+import engine.listeners.KeyboardListener;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -12,7 +13,9 @@ public class Window {
     private final JFrame frame;
     private final MainThread mainThread;
     private final SceneManager sceneManager;
+
     private final KeyboardListener keyboardListener;
+    private final MousepadListener mousepadListener;
 
     public Window(int width, int height, String title) {
         this.frame = new JFrame(title);
@@ -24,8 +27,10 @@ public class Window {
         this.sceneManager = new SceneManager(this);
 
         this.keyboardListener = new KeyboardListener();
+        this.mousepadListener = new MousepadListener(sceneManager);
         this.frame.addKeyListener(keyboardListener);
-        new Input(this.keyboardListener);
+        this.frame.addMouseMotionListener(mousepadListener);
+        new Input(this.keyboardListener, mousepadListener);
 
         this.mainThread = new MainThread(this);
         new Thread(this.mainThread).start();
