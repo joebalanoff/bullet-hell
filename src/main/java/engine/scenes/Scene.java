@@ -63,12 +63,13 @@ public abstract class Scene {
             entities.get(i).onDraw(g2d);
         }
 
-
-
         if(camera != null) {
             g2d.translate(camera.getX(), camera.getY());
             g2d.scale(1 / camera.getZoom(), 1 / camera.getZoom());
         }
+
+        g2d.setColor(new Color(0,0,0,(int) (getSceneManager().getFadeValue() * 255)));
+        g2d.fillRect(0, 0, getWidth(), getHeight());
     }
     public void updateAreas(double delta) {
         if(sceneAreas.isEmpty()) return;
@@ -89,6 +90,10 @@ public abstract class Scene {
     public abstract void onUpdate(double delta);
     public abstract void onDraw(Graphics2D g2d);
     public abstract void onExit();
+
+    public SceneManager getSceneManager() {
+        return sceneManager;
+    }
 
     public SceneArea getActiveArea() {
         for(SceneArea area : sceneAreas) {

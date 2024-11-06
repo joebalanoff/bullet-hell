@@ -4,21 +4,61 @@ import engine.core.Window;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SceneManager {
     private final Window window;
     private ArrayList<Scene> scenes;
     private int currentSceneIndex;
 
+    // Scene Transitions
+    private boolean transitioningScenes;
+    private double fadeValue = 0;
+    private int transitionToIndex;
+    private double sceneTransitionTimer;
+    private double sceneTransitionTime = 0.6;
+
     public SceneManager(Window window) {
         this.window = window;
         this.scenes = new ArrayList<>();
         this.currentSceneIndex = -1;
+
+        this.transitioningScenes = false;
+        this.fadeValue = 0;
+        this.transitionToIndex = -1;
     }
 
     public void addScene(Scene scene) {
         scene.setSceneManager(this);
         scenes.add(scene);
+    }
+
+    public void onUpdate(double delta) {
+        if(transitioningScenes) {
+            sceneTransitionTimer += delta;
+            fadeValue = Math.min(1, sceneTransitionTimer / sceneTransitionTime);
+            if(sceneTransitionTimer > sceneTransitionTime) {
+                setScene(transitionToIndex);
+                transitioningScenes = false;
+                sceneTransitionTimer = 0;
+            }
+        } else {
+            if(fadeValue > 0) {
+                fadeValue = Math.max(0, fadeValue - delta);
+            }
+        }
+    }
+
+    public void transitionToScene(int sceneIndex) {
+        if(transitioningScenes) return;
+
+        if(sceneIndex < 0 || sceneIndex > scenes.size()) return;
+        if(currentSceneIndex == sceneIndex) return;
+
+        transitioningScenes = true;
+        transitionToIndex = sceneIndex;
+        sceneTransitionTimer = 0;
     }
 
     public void setScene(int sceneIndex) {
@@ -63,5 +103,6 @@ public class SceneManager {
         }
     }
 
+    public double getFadeValue() { return fadeValue; }
     public Window getWindow() { return window; }
 }

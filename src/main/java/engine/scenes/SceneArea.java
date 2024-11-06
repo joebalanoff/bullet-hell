@@ -17,7 +17,9 @@ public class SceneArea {
     public float cameraZoom = 0.5f;
     public Runnable onEnter;
     public Runnable onClear;
+
     public boolean locked = false;
+
     private boolean active;
 
     public final ArrayList<SceneArea> connectedAreas = new ArrayList<>();
@@ -62,7 +64,8 @@ public class SceneArea {
 
         g2d.setColor(containsPlayer() ? Color.GREEN : Color.RED);
         g2d.setStroke(new BasicStroke(5));
-        g2d.drawRect((int) minPosition.x, (int) minPosition.y, (int) (maxPosition.x - minPosition.x), (int) (maxPosition.y - minPosition.y));
+        if(!(minPosition == null || maxPosition == null))
+            g2d.drawRect((int) minPosition.x, (int) minPosition.y, (int) (maxPosition.x - minPosition.x), (int) (maxPosition.y - minPosition.y));
         /*
         g2d.setColor(Color.WHITE);
         g2d.fillRect((int) minPosition.x, (int) minPosition.y, (int) (maxPosition.x - minPosition.x), (int) (maxPosition.y - minPosition.y));
@@ -72,7 +75,9 @@ public class SceneArea {
     public boolean containsPlayer() {
         Player p = scene.getEntity(Player.class);
         if(p == null) return false;
+
         Vector2 position = p.position;
+        if(minPosition == null || maxPosition == null) return false;
         return position.x >= minPosition.x && position.y >= minPosition.y &&
                 position.x <= maxPosition.x && position.y <= maxPosition.y;
     }

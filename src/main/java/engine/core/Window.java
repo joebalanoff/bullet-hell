@@ -6,6 +6,7 @@ import engine.listeners.Input;
 import engine.listeners.KeyboardListener;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -34,6 +35,7 @@ public class Window {
 
         this.mainThread = new MainThread(this);
         new Thread(this.mainThread).start();
+        this.mainThread.setPreferredSize(new Dimension(width, height));
         this.frame.add(mainThread);
 
         this.frame.addWindowListener(new WindowAdapter() {

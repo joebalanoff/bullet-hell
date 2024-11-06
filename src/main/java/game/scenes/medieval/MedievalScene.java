@@ -5,6 +5,9 @@ import engine.scenes.SceneArea;
 import engine.utils.Vector2;
 import engine.listeners.Input;
 import game.entities.Player;
+import game.entities.ProjectileEnemy;
+import game.entities.projectiles.ProjectilePattern;
+import game.entities.projectiles.SpinProjectilePattern;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -48,6 +51,11 @@ public class MedievalScene extends Scene {
         leftwardCorridor.connectTo(bossArena);
 
         player = addEntity(new Player(this));
+
+        ProjectileEnemy skeleton = new ProjectileEnemy(this, new SpinProjectilePattern(100, 0.2));
+        addEntity(skeleton);
+        skeleton.position.x = 200;
+        skeleton.position.y = 400;
     }
 
     @Override

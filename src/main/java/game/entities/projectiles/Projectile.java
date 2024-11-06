@@ -1,4 +1,4 @@
-package game.entities;
+package game.entities.projectiles;
 
 import engine.utils.Vector2;
 
@@ -31,3 +31,4 @@ public class Projectile {
         this.y += (int) (direction.y * delta * speed);
     }
 }
+

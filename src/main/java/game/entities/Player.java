@@ -5,6 +5,7 @@ import engine.scenes.Scene;
 import engine.scenes.SceneArea;
 import engine.utils.Vector2;
 import engine.listeners.Input;
+import game.entities.projectiles.Projectile;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -47,7 +48,6 @@ public class Player extends Entity {
         mouseDirection.x = mousePosition.x - this.position.x;
         mouseDirection.y = mousePosition.y - this.position.y;
         mouseDirection.Normalize();
-        System.out.println(mousePosition.add(position.multiply(-1)));
 
         manageMovement(delta);
         manageAttack(delta);
@@ -72,8 +72,8 @@ public class Player extends Entity {
         SceneArea activeArea = scene.getActiveArea();
         if(activeArea != null) {
             boolean canEnterConnectedArea = false;
-            for(SceneArea connectedArea : activeArea.connectedAreas) {
-                if(connectedArea.containsPlayer()) {
+            for (SceneArea connectedArea : activeArea.connectedAreas) {
+                if (connectedArea.containsPlayer()) {
                     canEnterConnectedArea = !activeArea.locked && !connectedArea.locked;
                     break;
                 }
@@ -120,7 +120,7 @@ public class Player extends Entity {
 
     @Override
     public void onDraw(Graphics2D g2d) {
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.WHITE);
         g2d.rotate(Math.toRadians(angle), position.x, position.y);
         double size = 30;
         g2d.fillRoundRect((int) (position.x - size / 2), (int) (position.y - size / 2), (int) size, (int) size, 10, 10);
