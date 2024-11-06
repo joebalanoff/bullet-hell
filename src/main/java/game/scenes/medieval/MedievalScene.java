@@ -9,21 +9,20 @@ import game.entities.ProjectileEnemy;
 import game.entities.projectiles.FollowProjectilePattern;
 import game.entities.projectiles.ProjectilePattern;
 import game.entities.projectiles.SpinProjectilePattern;
+import game.scenes.medieval.dungeon.DungeonArea;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class MedievalScene extends Scene {
     public Player player;
-    SceneArea entrance;
+    DungeonArea dungeon;
     SceneArea corridor1Horizontal;
 
     @Override
     public void onEnter() {
-        entrance = addArea(new SceneArea(this));
-        entrance.minPosition = new Vector2(0, 100);
-        entrance.maxPosition = new Vector2(700, 800);
-        entrance.cameraZoom = 0.6f;
+        dungeon = addArea(new DungeonArea(this));
+        dungeon.cameraZoom = 0.6f;
 
         corridor1Horizontal = new SceneArea(this);
         corridor1Horizontal.minPosition = new Vector2(700, 200);
@@ -52,18 +51,13 @@ public class MedievalScene extends Scene {
         leftwardCorridor.connectTo(bossArena);
 
         player = addEntity(new Player(this));
-
-        ProjectileEnemy skeleton = new ProjectileEnemy(this, new FollowProjectilePattern(0.2));
-        addEntity(skeleton);
-        skeleton.position.x = 200;
-        skeleton.position.y = 400;
     }
 
     @Override
     public void onUpdate(double delta) {
         if(Input.isKeyPressed(KeyEvent.VK_SPACE)) {
             addArea(corridor1Horizontal);
-            entrance.connectTo(corridor1Horizontal);
+            dungeon.connectTo(corridor1Horizontal);
         }
     }
 

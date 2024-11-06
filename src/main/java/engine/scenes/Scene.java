@@ -24,7 +24,7 @@ public abstract class Scene {
         this.entities = new ArrayList<>();
     }
 
-    public SceneArea addArea(SceneArea area) {
+    public <T extends SceneArea> T addArea(T area) {
         sceneAreas.add(area);
         return area;
     }

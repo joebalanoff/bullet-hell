@@ -9,6 +9,6 @@ public class Main {
        window.getSceneManager().addScene(new LobbyScene());
        window.getSceneManager().addScene(new MedievalScene());
 
-       window.getSceneManager().setScene(0);
+       window.getSceneManager().setScene(1);
     }
 }

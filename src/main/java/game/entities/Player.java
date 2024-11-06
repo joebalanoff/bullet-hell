@@ -19,25 +19,23 @@ public class Player extends Entity {
     private double moveSpeed = 200;
     private double sprintSpeed = 400;
     private boolean sprinting = false;
-    private Vector2 input;
-    private Vector2 mouseDirection;
+    private final Vector2 input;
+    private final Vector2 mouseDirection;
 
     // Attacking
-    private double attackCooldown = 0.05f;
-    private double attackTimer = 0f;
-    private double maximumAttackCharge = 3f;
+    private final double attackCooldown = 0.05f;
+    private final double maximumAttackCharge = 3f;
     private double attackChargeTimer = 0f;
     private boolean isChargingAttack = false;
-    private ArrayList<Projectile> projectiles;
+    private final ArrayList<Projectile> projectiles;
 
     // Animation
     private double angle = 0;
-    private double targetAngle = 0;
 
     public Player(Scene scene) {
         super(scene);
-        this.position.x = getWidth() / 2;
-        this.position.y = getHeight() / 2;
+        this.position.x = (double) getWidth() / 2;
+        this.position.y = (double) getHeight() / 2;
 
         this.input = new Vector2();
         this.mouseDirection = new Vector2();
@@ -91,6 +89,7 @@ public class Player extends Entity {
 
         position.set(nextPosition);
 
+        double targetAngle = 0;
         if(input.x > 0) targetAngle = 20;
         else if(input.x < 0) targetAngle = -20;
         else targetAngle = 0;

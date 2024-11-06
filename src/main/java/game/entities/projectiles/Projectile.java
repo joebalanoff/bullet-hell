@@ -31,10 +31,14 @@ public class Projectile {
         this.y += (int) (direction.y * delta * speed);
     }
 
+    public boolean checkBounds(int minX, int minY, int maxX, int maxY) {
+        return (x < minX || x > maxX || y < minY || y > maxY);
+    }
+
     public boolean checkCollision(Vector2 checkPos, double error) {
         int x = (int) checkPos.x - this.x;
         int y = (int) checkPos.y - this.y;
-        return Math.sqrt((x * x + y * y)) <= (this.w * this.h) + error;
+        return Math.sqrt((x * x + y * y)) <= ((double) this.w / 2) + error;
     }
 
     public int getDamage() {
