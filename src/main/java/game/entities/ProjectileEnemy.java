@@ -10,12 +10,16 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ProjectileEnemy extends Entity {
+    private final Player player;
+
     private ProjectilePattern projectilePattern;
 
     private ArrayList<Projectile> projectiles;
 
     public ProjectileEnemy(Scene scene, ProjectilePattern projectilePattern) {
         super(scene);
+
+        this.player = scene.getEntity(Player.class);
 
         this.projectilePattern = projectilePattern;
         this.projectilePattern.attachTo(this);
@@ -28,7 +32,14 @@ public class ProjectileEnemy extends Entity {
     public void onUpdate(double delta) {
         if(projectilePattern != null) projectilePattern.onUpdate(delta);
         for(int i = projectiles.size() - 1; i >= 0; i--) {
-            projectiles.get(i).onUpdate(delta);
+            Projectile p = projectiles.get(i);
+            p.onUpdate(delta);
+            if(player != null) {
+                if(p.checkCollision(player.position, 5)) {
+                    projectiles.remove(i);
+                    player.takeDamage(p.getDamage());
+                }
+            }
         }
     }
 
@@ -58,5 +69,9 @@ public class ProjectileEnemy extends Entity {
                 new Vector2(x, y),
                 speed)
         );
+    }
+
+    public Player getPlayer() {
+        return scene.getEntity(Player.class);
     }
 }

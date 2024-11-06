@@ -6,6 +6,7 @@ import engine.utils.Vector2;
 import engine.listeners.Input;
 import game.entities.Player;
 import game.entities.ProjectileEnemy;
+import game.entities.projectiles.FollowProjectilePattern;
 import game.entities.projectiles.ProjectilePattern;
 import game.entities.projectiles.SpinProjectilePattern;
 
@@ -14,19 +15,19 @@ import java.awt.event.KeyEvent;
 
 public class MedievalScene extends Scene {
     public Player player;
+    SceneArea entrance;
     SceneArea corridor1Horizontal;
 
     @Override
     public void onEnter() {
-        SceneArea entrance = addArea(new SceneArea(this));
+        entrance = addArea(new SceneArea(this));
         entrance.minPosition = new Vector2(0, 100);
         entrance.maxPosition = new Vector2(700, 800);
         entrance.cameraZoom = 0.6f;
 
-        corridor1Horizontal = addArea(new SceneArea(this));
+        corridor1Horizontal = new SceneArea(this);
         corridor1Horizontal.minPosition = new Vector2(700, 200);
         corridor1Horizontal.maxPosition = new Vector2(1500, 700);
-        entrance.connectTo(corridor1Horizontal);
 
         SceneArea corridor1Vertical = addArea(new SceneArea(this));
         corridor1Vertical.minPosition = new Vector2(1200, -300);
@@ -52,7 +53,7 @@ public class MedievalScene extends Scene {
 
         player = addEntity(new Player(this));
 
-        ProjectileEnemy skeleton = new ProjectileEnemy(this, new SpinProjectilePattern(100, 0.2));
+        ProjectileEnemy skeleton = new ProjectileEnemy(this, new FollowProjectilePattern(0.2));
         addEntity(skeleton);
         skeleton.position.x = 200;
         skeleton.position.y = 400;
@@ -60,7 +61,10 @@ public class MedievalScene extends Scene {
 
     @Override
     public void onUpdate(double delta) {
-        if(Input.isKeyPressed(KeyEvent.VK_SPACE)) corridor1Horizontal.locked = !corridor1Horizontal.locked;
+        if(Input.isKeyPressed(KeyEvent.VK_SPACE)) {
+            addArea(corridor1Horizontal);
+            entrance.connectTo(corridor1Horizontal);
+        }
     }
 
     @Override

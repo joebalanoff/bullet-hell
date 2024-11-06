@@ -95,6 +95,10 @@ public abstract class Scene {
         return sceneManager;
     }
 
+    public ArrayList<SceneArea> getSceneAreas() {
+        return sceneAreas;
+    }
+
     public SceneArea getActiveArea() {
         for(SceneArea area : sceneAreas) {
             if(area.containsPlayer()) {

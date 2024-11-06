@@ -12,6 +12,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Player extends Entity {
+    // Stats
+    private int health = 30;
+
     // Movement
     private double moveSpeed = 200;
     private double sprintSpeed = 400;
@@ -46,7 +49,7 @@ public class Player extends Entity {
     public void onUpdate(double delta) {
         Vector2 mousePosition = Input.getMouseWorldPosition();
         mouseDirection.x = mousePosition.x - this.position.x;
-        mouseDirection.y = mousePosition.y - this.position.y;
+        mouseDirection.y = (mousePosition.y - 40) - this.position.y;
         mouseDirection.Normalize();
 
         manageMovement(delta);
@@ -72,6 +75,7 @@ public class Player extends Entity {
         SceneArea activeArea = scene.getActiveArea();
         if(activeArea != null) {
             boolean canEnterConnectedArea = false;
+
             for (SceneArea connectedArea : activeArea.connectedAreas) {
                 if (connectedArea.containsPlayer()) {
                     canEnterConnectedArea = !activeArea.locked && !connectedArea.locked;
@@ -112,7 +116,7 @@ public class Player extends Entity {
             isChargingAttack = false;
             if(attackChargeTimer > 0.5f) {
 
-                projectiles.add(new Projectile((int) position.x, (int) position.y, ((int) attackChargeTimer * 10), (int) (attackChargeTimer * 10), 0, mouseDirection, 500));
+                projectiles.add(new Projectile((int) position.x, (int) position.y, ((int) attackChargeTimer * 10), (int) (attackChargeTimer * 10), 0, mouseDirection.copy(), 500));
             }
             attackChargeTimer = 0f;
         }
@@ -136,5 +140,10 @@ public class Player extends Entity {
             Projectile projectile = projectiles.get(i);
             g2d.fillRect(projectile.x, projectile.y, projectile.w, projectile.h);
         }
+    }
+
+    public void takeDamage(int damage) {
+        this.health -= damage;
+        scene.getCamera().shake(7.0f, 0.2);
     }
 }

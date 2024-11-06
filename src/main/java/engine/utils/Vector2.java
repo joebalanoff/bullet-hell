@@ -63,6 +63,10 @@ public class Vector2 {
         return new Vector2(this.x * s, this.y * s);
     }
 
+    public Vector2 copy() {
+        return new Vector2(this.x, this.y);
+    }
+
     @Override
     public String toString() {
         return x + " : " + y;

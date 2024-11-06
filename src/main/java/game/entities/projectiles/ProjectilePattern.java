@@ -10,13 +10,6 @@ public abstract class ProjectilePattern {
     public boolean active;
 
     public ProjectilePattern() {
-        this.lifeTime = 5;
-        this.direction = 0;
-        this.active = false;
-    }
-
-    public ProjectilePattern(double lifeTime) {
-        this.lifeTime = lifeTime;
         this.direction = 0;
         this.active = false;
     }

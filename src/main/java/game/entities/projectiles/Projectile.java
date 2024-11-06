@@ -30,5 +30,15 @@ public class Projectile {
         this.x += (int) (direction.x * delta * speed);
         this.y += (int) (direction.y * delta * speed);
     }
+
+    public boolean checkCollision(Vector2 checkPos, double error) {
+        int x = (int) checkPos.x - this.x;
+        int y = (int) checkPos.y - this.y;
+        return Math.sqrt((x * x + y * y)) <= (this.w * this.h) + error;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
 }
 

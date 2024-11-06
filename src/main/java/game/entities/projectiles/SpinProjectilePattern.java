@@ -1,7 +1,5 @@
 package game.entities.projectiles;
 
-import game.entities.ProjectileEnemy;
-
 public class SpinProjectilePattern extends ProjectilePattern {
     private double spinSpeed;
     private double fireInterval;

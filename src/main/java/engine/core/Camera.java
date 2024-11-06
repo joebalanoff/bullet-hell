@@ -2,6 +2,8 @@ package engine.core;
 
 import engine.utils.Vector2;
 
+import java.util.Random;
+
 public class Camera {
     private final Window window;
 
@@ -14,6 +16,12 @@ public class Camera {
     private Vector2 maxPosition;
     private Vector2 offset;
 
+    // Shake
+    private float shakeIntensity = 0.0f;
+    private double shakeDuration = 0.0;
+    private double shakeTimer = 0.0;
+    private final Random random = new Random();
+
     public Camera(Window window) {
         this.window = window;
         this.position = new Vector2();
@@ -23,6 +31,20 @@ public class Camera {
     public void onUpdate(double delta) {
         float zoomSpeed = 0.1f;
         currentZoom += (zoom - currentZoom) * zoomSpeed;
+
+        Vector2 shakeOffset = null;
+        if(shakeTimer > 0) {
+            shakeOffset = new Vector2();
+
+            shakeTimer -= delta;
+            shakeOffset.x = (float) ((random.nextDouble() * 2 - 1) * shakeIntensity);
+            shakeOffset.y = (float) ((random.nextDouble() * 2 - 1) * shakeIntensity);
+
+            if(shakeTimer <= 0) {
+                shakeTimer = 0;
+                shakeIntensity = 0;
+            }
+        }
 
         if(follow != null) {
             Vector2 targetPosition = new Vector2(
@@ -41,6 +63,17 @@ public class Camera {
             position.x += (targetPosition.x - position.x) * lerpSpeed;
             position.y += (targetPosition.y - position.y) * lerpSpeed;
         }
+
+        if(shakeOffset != null) {
+            position.x += shakeOffset.x;
+            position.y += shakeOffset.y;
+        }
+    }
+
+    public void shake(float intensity, double duration) {
+        this.shakeIntensity = intensity;
+        this.shakeDuration = duration;
+        this.shakeTimer = duration;
     }
 
     public void setFollow(Vector2 follow) {
